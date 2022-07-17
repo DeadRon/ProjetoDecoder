@@ -21,6 +21,8 @@ import java.util.UUID;
 
 import static com.ead.authuser.dtos.UserView.*;
 import static org.springframework.data.domain.Sort.Direction.ASC;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.ResponseEntity.status;
 
@@ -36,11 +38,16 @@ public class UserController {
     public ResponseEntity<Page<UserModel>> getAllUsers(UserSpec spec,
                                                        @PageableDefault(page = 0, size = 10, sort = "userId", direction = ASC) Pageable pageable){
         Page<UserModel> userModelPage = userService.findAll(pageable, spec);
+
+        if(!userModelPage.isEmpty()){
+            userModelPage.stream().forEach(x -> x.add(linkTo(methodOn(UserController.class).getOneUser(x.getUserId())).withSelfRel()));
+        }
+
         return status(OK).body(userModelPage);
     }
 
     @GetMapping("/{userId}")
-    public  ResponseEntity<Object> getUser(@PathVariable(value = "userId")UUID userId){
+    public  ResponseEntity<Object> getOneUser(@PathVariable(value = "userId")UUID userId){
         Optional<UserModel> userModelOptional = userService.findById(userId);
 
         if(userModelOptional.isEmpty())
@@ -57,7 +64,7 @@ public class UserController {
             return status(NOT_FOUND).body("User not found");
 
         userService.deleteUser( userModelOptional.get());
-        return status(OK).body("User deleted sucessfully");
+        return status(OK).body("User deleted successfully");
     }
 
     @PutMapping("/{userId}")
