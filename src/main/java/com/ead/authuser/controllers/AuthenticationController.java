@@ -4,6 +4,9 @@ import com.ead.authuser.dtos.UserDto;
 import com.ead.authuser.models.UserModel;
 import com.ead.authuser.services.UserService;
 import com.fasterxml.jackson.annotation.JsonView;
+import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -23,6 +26,8 @@ import static org.springframework.http.ResponseEntity.status;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/auth")
 public class AuthenticationController {
+
+    Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
 
     @Autowired
     private UserService userService;
@@ -47,4 +52,14 @@ public class AuthenticationController {
         return status(CREATED).body(userModel);
     }
 
+    //exemplo de nívies de logs
+    @GetMapping("/")
+    public String index(){
+        logger.trace("TRACE");
+        logger.debug("DEBUG");
+        logger.info("INFO");
+        logger.warn("WARN");
+        logger.error("ERROR");
+        return "Logging spring boot....";
+    }
 }
