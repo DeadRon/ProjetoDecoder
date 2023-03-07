@@ -161,4 +161,37 @@ Fazer verificação da lista, caso não seja vazia, para cada elemento presente 
 É chamado o método add (herdado da classe RepresentationModel), seu argumento é o resultado do método estático linkTo (da classe WebMvcLinkBuilder) que será responsável por fazer um link do Controller do recurso. Este método recebe como argumento o retorno do método estático methodOn(da classe WebMvcLinkBuilder), este método recebe como argumento uma chamada fictícia ao método de destino no controller e define o retorno do método como a variável de caminho da URI.
 A partir do retorno do linkTo é chamado o método de instância withSelfRel, este método cria o link para o controller do recurso
 
+### Principais Bibliotecas de Logging, Log Levels e Logging no Spring com Logback
 
+Logs: basicamente são um registro de tudo que acontece na aplicação. É usado para registrar várias coisas:
+aplicação iniciada, quando ocorre um erro, quando um usuário faz alguma ação, entre outras coisas. No 
+desenvolvimente ajuda a entender o que está ocorrendo dentro da aplicação para corrigir depois.
+
+- Existem 5 níveis de log:
+  - debug: registra informações de depuração, auxilia no desenvovimento para o que esta ocorrendo no programa
+  - info: registra informações de depuração mas que ajudam entender o que ocorrendo no programa. Ex: salva ou executar
+    alguma ação
+  - wargin: evisa que há algo de incosistente mas que ainda não é um erro.
+  - error: registra informações de que alguma coisa deu errado na aplicação
+  - trace: usado para mostrar informações muito especificas da aplicação, não é adequado de usar em produção
+  por gerar muitas informações e acabar atrapalhando quando for necessário encontrar uma informação
+  no log
+  - hierarquia: há uma hierarquia entre os níveis de log que mostram o nível de importância entre eles: TRACE < DEBUG < INFO < WARN < ERROR 
+
+- No Spring é possivel declarar níveis de log no código e para aplicação como um todo. Para aplicação deve ser declarado no ymal:
+  ````yaml
+  logging:
+    level:
+      com.ead: TRACE
+      #Traz informações relevantes e úteis sem auto detalhamenteo de DEBUG
+      root: INFO
+      #NÍVEIS DE LOG PARA O PACOTE: QUANDO RECEBER REQUISIÇÃO O CONSOLE IRÁ EXIBIR UM DETALHAMENTO MAIOR EM INFORMAÇÕES:
+      #método HTTP usado, método do controller usado, o que vem na requisição
+      #e detalhes do retorno da requisição. Enquanto deselve é bom para saber o que está vindo
+      #na requisição da API
+      org.springframework.web: DEBUG
+      #aumenta mais ainda o log exibindo informações detalahdas do hibernate
+      org.hibernate: INFO
+   ````
+
+  
