@@ -176,7 +176,9 @@ desenvolvimente ajuda a entender o que está ocorrendo dentro da aplicação par
   - trace: usado para mostrar informações muito especificas da aplicação, não é adequado de usar em produção
   por gerar muitas informações e acabar atrapalhando quando for necessário encontrar uma informação
   no log
-  - hierarquia: há uma hierarquia entre os níveis de log que mostram o nível de importância entre eles: TRACE < DEBUG < INFO < WARN < ERROR 
+  - **hierarquia**: há uma hierarquia entre os níveis de log que mostram o nível de importância entre eles: 
+  - TRACE < DEBUG < INFO < WARN < ERROR. IMPORTANTE: se for definido mais de um nível para um pacote, o log
+  de mais fina granularidade será priorizado.
 
 - No Spring é possivel declarar níveis de log no código e para aplicação como um todo. Para aplicação deve ser declarado no ymal:
   ````yaml
