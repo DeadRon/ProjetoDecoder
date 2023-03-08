@@ -196,4 +196,28 @@ desenvolvimente ajuda a entender o que está ocorrendo dentro da aplicação par
       org.hibernate: INFO
    ````
 
-  
+#### Implementando Logging nos Microservices com Log4J2
+
+- É possível alterar o esquema de cores do console usando o padrão ANSI, no ymal do projeto basta
+colocar esta declaracao:
+  - ````yaml
+    output:
+      ansi:
+        enabled: always
+    ````
+- É possível alterar o esquema de cores da MENSAGEM do log usando o padrão ANSI. Basta concatenar a cor em código
+ANSI com a mensagem do Log.
+  - Black: \u001b[30m.
+  - Red: \u001b[31m.
+  - Green: \u001b[32m.
+  - Yellow: \u001b[33m.
+  - Blue: \u001b[34m.
+  - Magenta: \u001b[35m.
+  - Cyan: \u001b[36m.
+  - White: \u001b[37m.
+  - Exemplo: mostra mensagem de log na cor azul
+    - ````java
+      log.warn("\u001b[34m" + "UserName {} is Already Taken!", userDto.getUserName());
+      ````
+Artigo interessante sobre cores no console: 
+[How to Log to the Console in Color](https://www.baeldung.com/java-log-console-in-color)
