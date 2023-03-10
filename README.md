@@ -221,3 +221,9 @@ ANSI com a mensagem do Log.
       ````
 Artigo interessante sobre cores no console: 
 [How to Log to the Console in Color](https://www.baeldung.com/java-log-console-in-color)
+
+#### Mapear Relacionamentos para Comunicação entre Microservices 
+
+Authuser precisa saber quando um usuário se cadastrar em determindo curso.
+Isso é feito através do id do usuário que se cadastrou e qual que foi o curso
+que ele se cadastrou. Isso vai ficar armazendo em uma tabela em authuser
