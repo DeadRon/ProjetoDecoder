@@ -9,13 +9,17 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
-//Esta classe
+//Esta classe representa dados de uma paginação
+// obtida da listagem de todos os cursos com
+// base em algum filtro no micro-serviço Course
 public class ResponsePageDTO<T> extends PageImpl<T> {
 
     //esse contrutor possui para parametros para a paginação e @JsonProperty é para informar ao Jackson que é
     //para utilizar esses atributos na desserialização
     //esse atributos são os mesmo que uma paginação costuma retornar
     //aqui é usado para ajudar em um recuros que exige paginação entre microsserviços
+    /*@JsonProperty informa ao Jackson que esses atributos devem ser utilizados na desserialização
+    * São os mesmos atributos que uma paginação costuma retornar*/
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
     public ResponsePageDTO(@JsonProperty("content") List<T> content,
                            @JsonProperty("number") int number,

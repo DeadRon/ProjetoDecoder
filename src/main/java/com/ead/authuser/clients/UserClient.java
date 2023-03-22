@@ -2,11 +2,13 @@ package com.ead.authuser.clients;
 
 import com.ead.authuser.dtos.CourseDTO;
 import com.ead.authuser.dtos.ResponsePageDTO;
+import com.ead.authuser.services.UtilsService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -23,21 +25,30 @@ public class UserClient {
 
     @Autowired
     private RestTemplate restTemplate;
+    @Autowired
+    private UtilsService utilsService;
 
-    private String REQUEST_URI = "http://localhost:8082";
-
-    public Page<CourseDTO> getAllByUser(UUID userId, Pageable pageable){
+    public Page<CourseDTO> getAllCoursesByUser(UUID userId, Pageable pageable){
         List<CourseDTO> searchResult = null;
         ResponseEntity<ResponsePageDTO<CourseDTO>> result = null;
-        String url = REQUEST_URI + "/courses?userId=" + userId + "&page" + pageable.getPageNumber() + "&size="
-                + pageable.getPageSize() + "&sort=" + pageable.getSort().toString().replaceAll(": ", ",");
+        String url = utilsService.createdURL(userId, pageable);
 
         log.debug("Request URL: {}", url);
         log.debug("Request URL: {}", url);
 
         try {
-            ParameterizedTypeReference<ResponsePageDTO<CourseDTO>> responseType =  new ParameterizedTypeReference<ResponsePageDTO<CourseDTO>>() {};
+            /*ParameterizedTypeReference<ResponsePageDTO<CourseDTO>>
+            informa ao RestTemplate o tipo de objeto que deve ser desserializado na resposta.
+            */
+            ParameterizedTypeReference<ResponsePageDTO<CourseDTO>> responseType = new ParameterizedTypeReference<ResponsePageDTO<CourseDTO>>() {};
 
+            /*retorna um objeto ResponseEntity
+            url: A URL do endpoint da API a ser chamada.
+            HttpMethod.GET: O método HTTP para esta chamada, que é GET.
+            null: O objeto HttpEntity que representa o corpo da requisição e cabeçalhos HTTP.
+            Neste caso, é passado null, pois a chamada GET geralmente não possui corpo.
+            responseType: Um objeto ParameterizedTypeReference que define o tipo esperado na resposta.
+            Neste caso, espera-se um objeto ResponsePageDTO<CourseDTO>*/
             result = restTemplate.exchange(url, HttpMethod.GET, null, responseType);
             searchResult = result.getBody().getContent();
 
