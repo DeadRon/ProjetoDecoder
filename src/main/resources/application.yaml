@@ -24,7 +24,7 @@ spring:
 logging:
   level:
     com.ead: TRACE
-    #Traz informações relevantes e úteis sem auto detalhamenteo de DEBUG
+    #Traz informações relevantes e úteis sem auto detalhamento de DEBUG
     root: INFO
     #NÍVEIS DE LOG PARA O PACOTE: QUANDO RECEBER REQUISIÇÃO O CONSOLE IRÁ EXIBIR UM DETALHAMENTO MAIOR EM INFORMAÇÕES:
     #método HTTP usado, método do controller usado, o que vem na requisição

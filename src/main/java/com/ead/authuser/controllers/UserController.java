@@ -5,6 +5,8 @@ import com.ead.authuser.models.UserModel;
 import com.ead.authuser.services.UserService;
 
 import static com.ead.authuser.specfications.SpecificationTemplate.UserSpec;
+
+import com.ead.authuser.specfications.SpecificationTemplate;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,8 +40,14 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<Page<UserModel>> getAllUsers(UserSpec spec,
-                                                       @PageableDefault(page = 0, size = 10, sort = "userId", direction = ASC) Pageable pageable){
-        Page<UserModel> userModelPage = userService.findAll(pageable, spec);
+                                                       @PageableDefault(page = 0, size = 10, sort = "userId", direction = ASC) Pageable pageable,
+                                                       @RequestParam(required = false) UUID courseId){
+        Page<UserModel> userModelPage = null;
+        if (courseId != null){
+            userModelPage = userService.findAll(pageable, SpecificationTemplate.userCourseId(courseId).and(spec));
+        } else {
+            userModelPage = userService.findAll(pageable, spec);
+        }
 
         if(!userModelPage.isEmpty()){
             userModelPage.stream().forEach(x -> x.add(linkTo(methodOn(UserController.class).getOneUser(x.getUserId())).withSelfRel()));

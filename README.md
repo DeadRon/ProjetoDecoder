@@ -222,8 +222,45 @@ ANSI com a mensagem do Log.
 Artigo interessante sobre cores no console: 
 [How to Log to the Console in Color](https://www.baeldung.com/java-log-console-in-color)
 
+# SEMANA 3 - API Composition Pattern e Comunicação Síncrona entre os Microservices
+
+
 #### Mapear Relacionamentos para Comunicação entre Microservices 
 
-Authuser precisa saber quando um usuário se cadastrar em determindo curso.
+0 MS Authuser precisa saber quando um usuário se cadastra em determindo curso (MS COURSE).
 Isso é feito através do id do usuário que se cadastrou e qual que foi o curso
-que ele se cadastrou. Isso vai ficar armazendo em uma tabela em authuser
+que ele se cadastrou. Isso vai ficar armazendo em uma tabela em authuser:
+
+````java
+@Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@Entity
+@Table(name = "TB_USERS_COURSEs")
+public class UserCourseModel implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    private UserModel user;
+
+    @Column(nullable = false)
+    private UUID courseId;
+
+}
+````
+
+Na classe de domínío UserModel:
+````java
+@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+private Set<UserCourseModel> usersCourses;
+````
+As tabelas de relacionamento estão em dois microservices diferentes, 
+em base de dados diferentes, a ideia é fazer o relacionamento de ambos os lados
+para correlacionar courses com users, elas foram criadas para que possamos 
+consultar tanto os cursos de um usuário quanto os usuários de um curso de ambos os lados.
+Esse relacionamento é uma forma de criar uma associação da referencia dos recursos entre os microservices, 
+ao invés de replicar todo o recurso e ter que lidar com a consistência

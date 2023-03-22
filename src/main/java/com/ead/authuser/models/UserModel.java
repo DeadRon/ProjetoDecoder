@@ -2,8 +2,8 @@ package com.ead.authuser.models;
 
 
 
-import com.ead.authuser.models.enums.UserStatus;
-import com.ead.authuser.models.enums.UserType;
+import com.ead.authuser.services.enums.UserStatus;
+import com.ead.authuser.services.enums.UserType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
