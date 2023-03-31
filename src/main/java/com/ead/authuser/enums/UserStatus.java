@@ -1,4 +1,4 @@
-package com.ead.authuser.services.enums;
+package com.ead.authuser.enums;
 
 public enum UserStatus {
 

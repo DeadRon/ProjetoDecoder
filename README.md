@@ -263,4 +263,6 @@ em base de dados diferentes, a ideia é fazer o relacionamento de ambos os lados
 para correlacionar courses com users, elas foram criadas para que possamos 
 consultar tanto os cursos de um usuário quanto os usuários de um curso de ambos os lados.
 Esse relacionamento é uma forma de criar uma associação da referencia dos recursos entre os microservices, 
-ao invés de replicar todo o recurso e ter que lidar com a consistência
+ao invés de replicar todo o recurso e ter que lidar com a consistência.
+
+

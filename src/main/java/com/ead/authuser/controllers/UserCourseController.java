@@ -19,13 +19,13 @@ import static org.springframework.http.ResponseEntity.status;
 @Log4j2
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
-@RequestMapping("/users")
+@RequestMapping("")
 public class UserCourseController {
 
     @Autowired
     private UserClient userClient;
 
-    @GetMapping("/{userId}/courses")
+    @GetMapping("/courses/{userId}/users")
     public ResponseEntity<Page<CourseDTO>> getAllCourseByUser(@PageableDefault(page = 0, size = 10, sort = "courseId", direction = ASC) Pageable pageable,
                                                               @PathVariable(value = "userId") UUID userId){
         return status(OK).body(userClient.getAllCoursesByUser(userId, pageable));
