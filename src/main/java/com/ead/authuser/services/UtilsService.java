@@ -6,6 +6,6 @@ import java.util.UUID;
 
 public interface UtilsService {
 
-    String createdURL(UUID userId, Pageable pageable);
+    String createdURLGetAllCoursesByUser(UUID userId, Pageable pageable);
 
 }
