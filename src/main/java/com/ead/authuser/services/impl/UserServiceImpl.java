@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;
     @Autowired
-    private UserCourseRepository userCourseRepository;
+    UserCourseRepository userCourseRepository;
 
     @Override
     public List<UserModel> findAll() {
