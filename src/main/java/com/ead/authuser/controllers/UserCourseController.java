@@ -5,6 +5,7 @@ import com.ead.authuser.dtos.CourseDTO;
 import com.ead.authuser.dtos.UserCourseDTO;
 import com.ead.authuser.models.UserCourseModel;
 import com.ead.authuser.models.UserModel;
+import com.ead.authuser.repository.UserCourseRepository;
 import com.ead.authuser.services.UserCourseService;
 import com.ead.authuser.services.UserService;
 import lombok.extern.log4j.Log4j2;
@@ -28,6 +29,8 @@ import static org.springframework.http.ResponseEntity.status;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("")
 public class UserCourseController {
+    @Autowired
+    private UserCourseRepository userCourseRepository;
 
     @Autowired
     private CourseClient userClient;
@@ -58,6 +61,15 @@ public class UserCourseController {
         UserCourseModel userCourseModel = userCourseService.save(userModelOptional.get().convertToUserCourseModel(userCourseDTO.getCourseId()));
         log.info("User {} subscripted in course {}", userCourseModel.getUser().getUserId(), userCourseModel.getCourseId());
         return status(CREATED).body(userCourseModel);
+    }
+
+    @DeleteMapping("/users/courses/{courseId}")
+    public ResponseEntity<Object> deleteUserCourseByCourse(@PathVariable(value = "courseId") UUID courseId){
+        if(!userCourseService.existsByCourseId(courseId)){
+            return status(NOT_FOUND).body("UserCourse not found");
+        }
+        userCourseService.deleteUserCourseByCourse(courseId);
+            return status(OK).body("UserCourse deleted succefully.");
     }
 
 }
